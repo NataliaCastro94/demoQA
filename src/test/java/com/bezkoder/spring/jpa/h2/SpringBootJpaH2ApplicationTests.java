@@ -9,5 +9,4 @@ class SpringBootJpaH2ApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
