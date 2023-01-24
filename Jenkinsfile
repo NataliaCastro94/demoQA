@@ -51,7 +51,7 @@ pipeline{
    post {
         always {
             sh "docker logout"
-            sh "docker rmi -f" + registryBackend + ":latest"
+            sh "docker rmi -f " + registryBackend + ":latest"
         }
    }
 }
