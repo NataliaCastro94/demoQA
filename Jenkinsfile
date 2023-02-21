@@ -17,15 +17,23 @@ pipeline{
           }
         }
 
-        stage('SonarQube analysis') {
-          steps {
-            withSonarQubeEnv(credentialsId: "sonarqube-credentials", installationName: "sonarqube-server"){
-                sh "mvn clean verify sonar:sonar -DskipTests"
+        stage("Test") {
+            steps {
+                sh "mvn test"
+                jacoco()
+                junit "target/surefire-reports/*.xml"
             }
-          }
         }
 
-        stage('Quality Gate') {
+//         stage('SonarQube analysis') {
+//           steps {
+//             withSonarQubeEnv(credentialsId: "sonarqube-credentials", installationName: "sonarqube-server"){
+//                 sh "mvn clean verify sonar:sonar -DskipTests"
+//             }
+//           }
+//         }
+
+       /*  stage('Quality Gate') {
           steps {
             timeout(time: 10, unit: "MINUTES") {
               script {
@@ -36,7 +44,7 @@ pipeline{
               }
             }
           }
-       }
+       } */
        stage('Push Image to Docker Hub') {
            steps {
                script {
