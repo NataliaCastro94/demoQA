@@ -55,6 +55,20 @@ pipeline{
                }
            }
        }
+
+       stage("Deploy to K8s"){
+                   steps{
+                       script {
+                         if(fileExists("configuracion")){
+                           sh 'rm -r configuracion'
+                         }
+                       }
+
+                       sh 'git clone https://github.com/NataliaCastro94/kubernetes-helm-docker-config.git configuracion --branch master'
+                       sh 'kubectl apply -f configuracion/kubernetes-deployment/spring-boot-app/manifest.yml -n default --kubeconfig=configuracion/kubernetes-config/config'
+                   }
+               }
+
    }
    post {
         always {
